@@ -30,8 +30,7 @@ z = F
 ####3  - Estruturas de dados####
 
 #vetor: conjunto de variáveis do mesmo tipo. Os valores devem estar contidos
-#dentro da sintaxe c() e separados por vírgula. Cada elemento no vetor pode
-#ser acessado através da sua posição entre [].
+#dentro da sintaxe c() e separados por vírgula. 
 
 rhcp_nomes = c("Antony", "Flea", "John", "Chad")
 
@@ -39,23 +38,17 @@ rhcp_idade = c(61, 61, 54, 72)
 
 rhcp_teste = c(TRUE, TRUE, TRUE, FALSE)
 
-rhcp_nomes[3]
+#fator: vetor que representa os valores implicitamente de forma categórica
+rhcp_vocals = factor(c("vocal", "não", "vocal", "não"))
+rhcp_vocals
 
-#list: Contém um ou mais vetores, podendo ser nomeados. Os items da lista são
-#acessados por [] (caso queira manter em lista) ou [[]] (caso queira extrair o
-#vetor armazenado no item correspondente), contendo o número correspondente do 
-#item ou seu nome, quando houver.
+#list: Contém um ou mais vetores, podendo ser nomeados. 
 
 rhcp_info = list(nomes = rhcp_nomes,
                  idade = rhcp_idade,
                  teste = rhcp_teste)
 
-rhcp_info[1] #retorna o item da lista em formato de lista
-rhcp_info[[1]] #retorna o item da lista em formato de vetor
-
-rhcp_info[["idade"]][3] #retorna o teceiro elemento do vetor extraído
-
-#matrix ou array: estrutura bidimensional, contendo valores do mesmo tipo 
+#matrix: estrutura bidimensional, contendo valores do mesmo tipo 
 #(character, numeric ou logic). Caso contenha valores de mais de um tipo, todos
 #esses serão automaticamente convertidos em character. Necessita especificar 
 #ao menos o número de linhas ou colunas.
@@ -66,8 +59,8 @@ rhcp_matrix = matrix(c(rhcp_nomes,
                      nrow = 4, 
                      ncol = 3)
 
-
-#data frame
+#data frame: estrutura bidimensional, contendo linhas e colunas, sendo a s
+#egunda, podendo conter variáveis de diferentes tipos. 
 
 rhcp_df = data.frame(nomes = rhcp_nomes,
                      idade = rhcp_idade,
@@ -92,6 +85,8 @@ rhcp_df$nomes
 #buscar elemento especifico dentro de um objeto
 
 rhcp_idade[2] #vetores
+rhcp_info[2] #lista
+rhcp_info["idade"] #lista
 rhcp_matrix[2,2] #matrizes
 rhcp_df[2,3] #dataframe
 
@@ -119,9 +114,6 @@ rhcp_df[4,3] <- TRUE
 2^2
 9%%4
 9%/%4
-
-sqrt(81)
-log2(3)
 
 #relacionais: >,>=,<,<=,==,!=, %in% (match), ! (opposite)
 
@@ -165,9 +157,13 @@ match("Jake", rhcp_df$nomes)
 
 x = c(TRUE, FALSE, TRUE) 
 y = c(FALSE, TRUE, TRUE) 
-x &  y 
+
+#AND e OR normais comparam vetores
+x & y 
+x | y 
+
+#super AND e super OR não comparam vetores
 x && y 
-x |  y 
 x || y 
 
 ####6  - iterações####
@@ -233,7 +229,7 @@ ifelse(is.character(y), "é texto", "é número")
 
 #name: objeto/variável do tipo character
 
-is_rhcp = function(name) {
+is_rhcp <- function(name) {
   if(name %in% rhcp_df$nomes) {
     return(print("é do red hot"))
   } else {
