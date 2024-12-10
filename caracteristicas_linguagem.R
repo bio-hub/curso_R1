@@ -12,3 +12,4 @@
     #tipagem dinâmica 
      #fracamente tipada 
   #voltada à manipulação, análise e visualização de dados
+

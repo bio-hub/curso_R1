@@ -1,7 +1,8 @@
 ####1  - Objetos####
 
 #espaço na memória dedicada a armazenar um dado
-#necessita ter um nome e um valor, mesmo que o valor seja nulo ou vazio
+#necessita ter um nome e um valor, mesmo que o valor seja nulo 
+#ou vazio
 
 a <- "maçã"
 b =  2
@@ -17,6 +18,7 @@ x = '256'
 #integer ou numeric: Números. Podem ser inteiros ou qualquer número real
 
 y = 256L #usa o L para especificar número inteiro, se necessário
+y = 256
 y = 4.25
 
 #logical: operadores booleanos de verdadeiro ou falso
@@ -29,7 +31,8 @@ z = F
 
 ####3  - Estruturas de dados####
 
-#vetor: conjunto de variáveis do mesmo tipo. Os valores devem estar contidos
+#vetor: conjunto de variáveis do mesmo tipo. Os valores devem 
+#estar contidos
 #dentro da sintaxe c() e separados por vírgula. 
 
 rhcp_nomes = c("Antony", "Flea", "John", "Chad")
@@ -38,7 +41,8 @@ rhcp_idade = c(61, 61, 54, 72)
 
 rhcp_teste = c(TRUE, TRUE, TRUE, FALSE)
 
-#fator: vetor que representa os valores implicitamente de forma categórica
+#fator: vetor que representa os valores implicitamente de 
+#forma categórica
 rhcp_vocals = factor(c("vocal", "não", "vocal", "não"))
 rhcp_vocals
 
@@ -58,6 +62,7 @@ rhcp_matrix = matrix(c(rhcp_nomes,
                        rhcp_teste), 
                      nrow = 4, 
                      ncol = 3)
+rhcp_matrix
 
 #data frame: estrutura bidimensional, contendo linhas e colunas, sendo a s
 #egunda, podendo conter variáveis de diferentes tipos. 
@@ -65,6 +70,8 @@ rhcp_matrix = matrix(c(rhcp_nomes,
 rhcp_df = data.frame(nomes = rhcp_nomes,
                      idade = rhcp_idade,
                      teste = rhcp_teste)
+
+rhcp_df
 
 ####4  - coordenadas####
 
@@ -90,8 +97,10 @@ rhcp_info["idade"] #lista
 rhcp_matrix[2,2] #matrizes
 rhcp_df[2,3] #dataframe
 
-rhcp_df[,3] #toda a coluna (dataframe e matriz)
-rhcp_df[2,] #toda a linha (dataframe e matriz)
+rhcp_df[,1:3] #toda a coluna (dataframe e matriz)
+rhcp_df[2:4,] #toda a linha (dataframe e matriz)
+
+rhcp_df[,c(1,3)] #escolher duas colunas específicas
 
 rhcp_info[[2]][3] #para listas
 
@@ -202,9 +211,10 @@ if (x > 0) {
 
 #if aninhado
 
-#se esse objeto for assim, faça isto {} senão, faça isto {}, senão, faça isto {}...
+#se esse objeto for assim, faça isto {} senão, faça isto {}, 
+#senão, faça isto {}...
 
-x = -4
+x = 7
 if (x > 0) {
   print("número positivo")
 } else if (x == 0) {
@@ -221,6 +231,9 @@ y = "californication"
 ifelse(is.character(y), "é texto", "é número")
 
 y = 20
+ifelse(is.character(y), "é texto", "é número")
+
+y = TRUE
 ifelse(is.character(y), "é texto", "é número")
 
 ####8  - funções####
@@ -299,14 +312,14 @@ rm(i,j,n)
 rm(list = ls(pattern = "rhcp"))
 
 #getwd
-getwd
+getwd()
 
 #setwd
 setwd("c:/Users/ronal/Downloads/")
 
 #list.files
 list.files()
-list.files(pattern = "spotify")
+list.files(pattern = "reports")
 
 ####13 - funções de instalar pacotes####
 

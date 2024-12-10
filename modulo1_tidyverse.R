@@ -60,12 +60,12 @@ starwars |>
 #criar nova variável com base em uma variável já existente
 starwars |>
   mutate(altura_categ = if_else(height > 200, "alto", "baixo")) |>
-  glimpse()
+  View()
 
 #criar nova variável do zero
 starwars |>
   mutate(index = seq(1:nrow(starwars))) |>
-  glimpse()
+  View()
 
 #alterar o tipo de variável
 starwars |>
@@ -96,25 +96,25 @@ starwars |>
 #utilizando operadores lógicos
 starwars |> 
   filter(height > 150) |> 
-  glimpse()
+  View()
 
 starwars |> 
   #filter(height >= 180 & height <= 200) |> 
   filter(between(height, 180, 200)) |>   #utilizando a função between
-  glimpse()
+  View()
 
 starwars |> 
   filter(hair_color == "blonde" | hair_color == "blond") |> 
-  glimpse()
+  View()
 
 starwars |> 
   filter(!species == "Human") |> 
-  glimpse()
+  View()
 
 #utilizando filtro por matching
 starwars |> 
   filter(eye_color %in% c("red", "blue")) |> 
-  glimpse()
+  View()
 
 ####summarise####
 
@@ -224,6 +224,8 @@ starwars |>
 
 ####joins####
 
+#https://rpubs.com/jcross/joins
+
 x = starwars |> 
   select(name, height, mass)
 
@@ -234,14 +236,21 @@ y = starwars |>
 x
 y
 
-z_left = left_join(x, y, by = "name")
+z_left = left_join(x, y, join_by("name" == "name"))
 z_left
 
-z_right = right_join(x, y, by = "name")
+z_right = right_join(x, y, join_by("name" == "name"))
 z_right
 
-z_full = full_join(x, y, by = "name")
+z_full = full_join(x, y, join_by("name" == "name"))
 z_full
 
-z_inner = inner_join(x, y, by = "name")
+z_inner = inner_join(x, y, join_by("name" == "name"))
 z_inner
+
+z_semi = semi_join(x, y, join_by("name" == "name"))
+z_semi
+
+z_anti = anti_join(x, y, join_by("name" == "name"))
+z_anti
+
