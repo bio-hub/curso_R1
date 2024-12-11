@@ -1,3 +1,6 @@
+install.packages("skimr")
+install.packages("janitor")
+
 library(tidyverse)
 library(janitor)
 library(data.table)
@@ -23,17 +26,17 @@ meteoritos |>
 
 #remover linhas duplicadas
 meteoritos |> 
-  distinct(id) |> 
+  distinct(id, .keep_all = TRUE) |> 
   glimpse()
 
 #converter tipos de variáveis
 
 meteoritos_clean = meteoritos |> 
-  clean_names() |> 
-  mutate(recclass = na_if(recclass, "Unknown")) |>
-  mutate_at(.vars = vars(nametype, fall),
+  clean_names() |> #organizei o nome das colunas
+  mutate(recclass = na_if(recclass, "Unknown")) |> #coloquei NA quando for Unknown
+  mutate_at(.vars = vars(nametype, fall), #coloquei tudo em minusculo
             .funs = ~ tolower(.x)) |> 
-  mutate_at(.vars = vars(nametype, fall),
+  mutate_at(.vars = vars(nametype, fall, recclass),
             .funs = ~ as.factor(.x)) |> 
   mutate(nametype = fct_relevel(nametype, c("valid", "relict"))) |> 
   mutate(fall = fct_relevel(fall, c("fell", "found"))) |> 

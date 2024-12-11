@@ -1,3 +1,5 @@
+install.packages("skimr")
+
 library(tidyverse)
 library(data.table)
 library(skimr)
@@ -12,7 +14,7 @@ meteoritos
 #visao geral dos dados (nome das colunas, tipo de variáveis, etc)
 glimpse(meteoritos)
 
-#descrição sumaria dos dados
+#descrição sumariza dos dados
 skim(meteoritos)
 
 

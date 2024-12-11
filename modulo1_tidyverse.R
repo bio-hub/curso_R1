@@ -1,4 +1,4 @@
-#install.packages("tidyverse")
+install.packages("tidyverse")
 library(tidyverse)
 
 ####pipe####
@@ -116,6 +116,18 @@ starwars |>
   filter(eye_color %in% c("red", "blue")) |> 
   View()
 
+####arrange####
+
+#ordem crescente
+starwars |> 
+  arrange(mass) |> 
+  View() #NA fica por último
+
+#ordem decrescente
+starwars |> 
+  arrange(desc(height)) |> 
+  View()
+
 ####summarise####
 
 #uma função
@@ -148,6 +160,8 @@ starwars |>
                .funs = list(avg = ~ mean(.x, na.rm = TRUE),
                             sd  = ~ sd(.x, na.rm = TRUE)))
 
+####GROUP_BY####
+
 #dados agrupados por uma categoria
 starwars |> 
   group_by(sex) |> 
@@ -156,24 +170,17 @@ starwars |>
 #dados agrupados por múltiplas categoria(s)
 starwars |> 
   group_by(hair_color, eye_color) |> 
-  summarise(contagem = n())
+  summarise(contagem = n()) |> 
+  View()
 
 #dados agrupados por múltiplas categoria(s) e múltiplas funções
 starwars |> 
   group_by(hair_color, eye_color) |> 
   summarise_at(.vars = vars(height, birth_year), 
                .funs = list(avg = ~ mean(.x, na.rm = TRUE),
-                            sd  = ~ sd(.x, na.rm = TRUE)))
+                            sd  = ~ sd(.x, na.rm = TRUE))) |> 
+  View()
 
-####arrange####
-
-#ordem crescente
-starwars |> 
-  arrange(mass) #NA fica por último
-
-#ordem decrescente
-starwars |> 
-  arrange(desc(height))
 
 ####pivot####
 
@@ -237,7 +244,8 @@ x
 y
 
 z_left = left_join(x, y, join_by("name" == "name"))
-z_left
+z_left |> 
+  View()
 
 z_right = right_join(x, y, join_by("name" == "name"))
 z_right
