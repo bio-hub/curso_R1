@@ -6,14 +6,16 @@ library(ggpubr)
 #### LINE CHART ####
 
 meteoritos = read_delim("datasets/meteorite_landings/meteorite-landings.csv")
-p1 = meteoritos |> 
+meteoritos_clean = meteoritos |> 
   filter(between(year, 1901, 2000)) |> 
   filter(mass >= 1) |> 
   filter(fall == "Fell") |>
   filter(nametype == "Valid") |>
   drop_na() |> 
   mutate(decade = floor(year / 10) * 10) |>
-  relocate(decade, .after = year) |> 
+  relocate(decade, .after = year) 
+
+p1 = meteoritos_clean |> 
   group_by(decade) |> 
   count() |> 
   ggplot(aes(x = decade, 
@@ -22,7 +24,8 @@ p1 = meteoritos |>
   geom_line(linewidth = 1,
             color = "#073A60") +
   scale_x_continuous(breaks = seq(1900, 2000, by = 10)) +
-  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100)) +
+  scale_y_continuous(breaks = seq(0, 100, by = 10), 
+                     limits = c(0, 100)) +
   theme_minimal(base_size = 18, 
                 base_family = "serif") +
   theme(panel.grid = element_blank(),
@@ -41,7 +44,8 @@ food_waste = read_delim("datasets/food_waste/Food Waste data and research - by c
 p2 = food_waste |>
   clean_names() |> 
   filter(region == "Latin America and the Caribbean") |> 
-  ggplot(aes(x = reorder(country, -household_estimate_kg_capita_year),
+  ggplot(aes(x = reorder(country, 
+                         -household_estimate_kg_capita_year),
              y = household_estimate_kg_capita_year)) +
   geom_bar(stat = "identity",
            fill = "cornflowerblue") +
@@ -561,8 +565,8 @@ p15
 
 #### SALVAR OS PLOTS ####
 
-ggsave(p14,
-       filename = "./fig17.jpg", 
+ggsave(p1,
+       filename = "./fig1.jpg", 
        width = 1920*5, 
        height = 1080*5, 
        dpi = 600, 

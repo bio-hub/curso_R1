@@ -1,6 +1,7 @@
 library(tidyverse)
 library(janitor)
 library(data.table)
+
 library(rstatix)
 
 #carregar os dados
@@ -35,20 +36,28 @@ meteoritos_clean |>
   group_by(fall) |> 
   count()
 
+#agrupar por duas variáveis
+meteoritos_clean |> 
+  group_by(nametype, fall) |> 
+  count()
+
 #contagens de meteoritos por ano
 meteoritos_clean |> 
   group_by(year) |> 
-  count()
+  count() |>
+  arrange(desc(n)) |> 
+  View()
 
 #mínimos e máximas massa por classe de meteorito
 meteoritos_clean |> 
   group_by(recclass) |> 
-  summarise(minimo = min(mass),
-            maximo = max(mass))
+  summarise(minimo = min(mass_log2),
+            maximo = max(mass_log2)) |> 
+  View()
 
 #top5 metoritos massivos
 meteoritos_clean |> 
-  select(name, mass) |> 
+  select(year, name, mass) |> 
   slice_max(order_by = mass, 
             n = 5)
 
@@ -56,7 +65,7 @@ meteoritos_clean |>
 #função xtabs não funciona com o pipe nativo do R
 
 meteoritos_clean %>% 
-  xtabs(~ fall + nametype, data = .)
+  xtabs(~ nametype + fall, data = .)
 
 #medidas de dispersão e centralidade
 meteoritos_clean |> 

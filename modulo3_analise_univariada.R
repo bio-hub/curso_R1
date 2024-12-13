@@ -3,8 +3,6 @@ library(janitor)
 library(skimr)
 library(rstatix)
 
-
-
 ########## COMPARAÇÕES ENTRE PROPORÇÕES ####
 
 #https://www.kaggle.com/datasets/utkarshx27/heart-disease-diagnosis-dataset
@@ -14,7 +12,7 @@ coracao_clean = coracao |>
   clean_names() |> 
   mutate(sex = case_when(sex == 0 ~ "feminino",
                          sex == 1 ~ "masculino")) |> 
-  mutate(sex = fct_relevel(sex, c("masculino", "feminino"))) |> 
+  mutate(sex = fct_relevel(sex, c("feminino", "masculino"))) |> 
   mutate(heart_disease = case_when(
     heart_disease == 1 ~ "não",
     heart_disease == 2 ~ "sim")) |> 
@@ -33,12 +31,14 @@ coracao_clean = coracao |>
 
 coracao_clean %>% 
   xtabs(~ sex + heart_disease, data = .) |> 
-  fisher_test()
+  fisher_test(detailed = TRUE)
 
 #fisher par-a-par
 coracao_clean %>% 
   xtabs(~ major_vessels + heart_disease, data = .) |> 
-  pairwise_fisher_test()
+  pairwise_fisher_test(detailed = TRUE, 
+                       p.adjust.method = "fdr") |> 
+  View()
 
 #### Teste qui-quadrado ####
 coracao_clean %>% 
@@ -49,6 +49,10 @@ coracao_clean %>%
 coracao_clean %>% 
   xtabs(~ resting_electrocardiographic_results + heart_disease, data = .) |> 
   pairwise_prop_test()
+
+coracao_clean %>% 
+  xtabs(~ resting_electrocardiographic_results + heart_disease, data = .) |> 
+  pairwise_fisher_test()
 
 #### Cochran's Q test e McNemar's Chi-squared Test ####
 
@@ -62,10 +66,10 @@ mydata = tibble(
   mutate(outcome = fct_relevel(outcome, c("success", "failure")))
 
 mydata %>%
-  xtabs(~ outcome + treatment, data = .)
+  xtabs(~ treatment +outcome, data = .)
  
 mydata |>  
-  cochran_qtest(outcome ~ treatment|participant)
+  cochran_qtest(outcome ~ treatment | participant)
 
 mydata |> 
   pairwise_mcnemar_test(outcome ~ treatment|participant)
@@ -92,7 +96,8 @@ skim(caranguejo_clean)
 
 caranguejo_clean |> 
   select(length:shell_weight) |>
-  cor_mat(method = "pearson")
+  cor_mat(method = "pearson") |> 
+  cor_plot()
 
 
 ########## TESTES DE NORMALIDADE ####
@@ -137,7 +142,8 @@ ToothGrowth |>
   group_by(dose) |> 
   wilcox_test(len ~ supp) |> 
   adjust_pvalue(method = "bonferroni") |> 
-  add_significance("p.adj")
+  add_significance("p.adj") |> 
+  View()
 
 #teste par-a-par (faz automaticamente quando tem mais de dois grupos)
 ToothGrowth |> 
@@ -145,7 +151,8 @@ ToothGrowth |>
 
 #teste par-a-par assuindo um grupo de referencia
 ToothGrowth |> 
-  wilcox_test(len ~ dose, ref.group = "0.5")
+  wilcox_test(len ~ dose, ref.group = "0.5") |> 
+  View()
 
 #### Teste t normal e pareado ####
 
@@ -210,7 +217,8 @@ ToothGrowth |>
 
 #realizar a anova se os dados foram normais e a variância homogênia
 ToothGrowth |> 
-  anova_test(len ~ dose)
+  anova_test(len ~ dose) |> 
+  get_anova_table()
 
 #post-hoc test
 ToothGrowth |> 
@@ -247,7 +255,8 @@ ToothGrowth |>
 
 #realizar a anova se os dados foram normais e a variância homogênia
 ToothGrowth |> 
-  anova_test(len ~ dose*supp)
+  anova_test(len ~ dose*supp) |> 
+  get_anova_table()
 
 #post-hoc test para interações two-way significativas
 #calcula a one-way ANOVA da resposta com a primeira variável,
