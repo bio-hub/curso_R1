@@ -202,9 +202,9 @@ p6 = meteoritos |>
   theme_minimal(base_size = 18, 
                 base_family = "sans") +
   theme(panel.grid.minor = element_blank()) +
-  # coord_cartesian(xlim = c(0, 18))  +
-  # scale_x_continuous(breaks = seq(0, 18, by = 1)) +
-  # scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100)) +
+  coord_cartesian(xlim = c(0, 18))  +
+  scale_x_continuous(breaks = seq(0, 18, by = 1)) +
+  scale_y_continuous(breaks = seq(0, 100, by = 10), limits = c(0, 100)) +
   labs(title = "distribuição da massa dos meteoritos que cairam na Terra",
        subtitle = "dados do século XX",
        caption = "FONTE: NASA",
@@ -356,6 +356,10 @@ p10 = PlantGrowth %>%
 p10
 
 #### BOXPLOT ####
+
+PlantGrowth |> 
+  group_by(group) |> 
+  identify_outliers(weight)
 
 res_aov = PlantGrowth |>  
   anova_test(weight ~ group)
